@@ -1,0 +1,12 @@
+<img alt="@altText" src="@src" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter]
+    public string src { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public string altText { get; set; } = "";
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = new Dictionary<string, object>();
+}

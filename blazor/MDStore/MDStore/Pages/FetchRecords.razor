@@ -1,0 +1,62 @@
+@page "/records"
+@using System.Text.Json.Serialization
+@using MDStore.Components
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Top Redors Ever!</h1>
+
+
+@if (records == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul class="recordsList">
+        @foreach (var record in records)
+        {
+            <li>
+                <a href="/">
+                    <DecorativeImage src="@BuildAlbumImagePath(record.AlbumImage)" />
+                    <div>
+                        <div aria-label="Album name">
+                            @record.Album
+                        </div>
+                        <div aria-label="Artist name">
+                            @record.Artist
+                        </div>
+                        <div aria-label="Release date">
+                            @record.ReleaseDate.ToShortDateString()
+                        </div>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private AvailableRecords[]? records;
+
+    private string BuildAlbumImagePath(string? imageName)
+    {
+        return "sample-data/images/" + imageName;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        records = await Http.GetFromJsonAsync<AvailableRecords[]>("sample-data/records.json");
+    }
+
+    public class AvailableRecords
+    {
+        public string? Artist { get; set; }
+        public string? Album { get; set; }
+        [JsonPropertyName("image")]
+        public string? AlbumImage { get; set; }
+        [JsonPropertyName("release_date")]
+        public DateTime ReleaseDate { get; set; }
+
+    }
+}

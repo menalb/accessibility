@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32002.185
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDStore", "MDStore\MDStore.csproj", "{C0010670-E81E-40F7-90E7-B88BB6411559}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0010670-E81E-40F7-90E7-B88BB6411559}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0010670-E81E-40F7-90E7-B88BB6411559}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0010670-E81E-40F7-90E7-B88BB6411559}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0010670-E81E-40F7-90E7-B88BB6411559}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BC57886-4E2C-4630-8D18-7DA8EF36FE45}
+	EndGlobalSection
+EndGlobal

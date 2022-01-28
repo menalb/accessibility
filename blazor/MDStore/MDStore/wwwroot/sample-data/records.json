@@ -1,0 +1,108 @@
+[
+    {
+        "artist":"Of Monsters and Men",
+        "album":"Fever Dream",
+        "release_date":"2019-07-26",
+        "label":"Republic",
+        "image":"Of_Monsters_and_Men_-_Fever_Dream.png",        
+        "songs":[
+            {"track_number":1,	"title":"Alligator"	,"length":3.04},
+            {"track_number":2,	"title":"Ahay"	,"length":2.56},
+            {"track_number":3,	"title":"Róróró"	,"length":4.21},
+            {"track_number":4,	"title":"Waiting for the Snow"	,"length":3.43},
+            {"track_number":5,	"title":"Vulture, Vulture"	,"length":2.56},
+            {"track_number":6,	"title":"Wild Roses"	,"length":4.02},
+            {"track_number":7,	"title":"Stuck in Gravity"	,"length":4.24},
+            {"track_number":8,	"title":"Sleepwalker"	,"length":3.19},
+            {"track_number":9,	"title":"Wars"	,"length":3.37},
+            {"track_number":10,	"title":"Under a Dome"	,"length":4.33},
+            {"track_number":11,	"title":"Soothsayer"	,"length":3.35}
+        ]
+    },
+    {
+        "artist":"Journey",
+        "album":"Escape",
+        "release_date":"1981-10-31",
+        "label":"Columbia",
+        "image":"JourneyEscapealbumcover.png",
+        "songs":[
+            {"track_number":1,"title":"Don't Stop Believin'","length":4.10},
+            {"track_number":2,"title":"Stone in Love","length": 4.25},
+            {"track_number":3,"title":"Who's Crying Now","length": 5.01},
+            {"track_number":4,"title":"Keep on Runnin'","length": 3.39},
+            {"track_number":5,"title":"Still They Ride","length": 3.49},
+            {"track_number":6,"title":"Escape","length": 5.16},
+            {"track_number":7,"title":"Lay It Down","length": 4.13},
+            {"track_number":8,"title":"Dead or Alive","length": 3.20},
+            {"track_number":9,"title":"Mother, Father","length": 5.28},
+            {"track_number":10,"title":"Open Arms","length": 3.18},
+            {"track_number":11,"title":"La raza del sol","length": 3.26},
+            {"track_number":12,"title":"Don't Stop Believin'","length": 4.19},
+            {"track_number":13,"title":"Who's Crying Now","length": 5.44},
+            {"track_number":14,"title":"Open Arms","length": 3.23}
+        ]
+    },
+    {
+        "artist":"Helloween",
+        "album":"Keeper of the Seven Keys: Part I",
+        "release_date":"1987-05-23",
+        "label":"Noise",
+        "image":"R-1073712-1510230828-5953.png",
+        "songs":[
+            {"track_number":1,"title":"Initiation","length":1.20},
+            {"track_number":2,"title":"I'm Alive","length":3.22},
+            {"track_number":3,"title":"A Little Time","length":3.59},
+            {"track_number":4,"title":"Twilight of the Gods","length":4.29},
+            {"track_number":5,"title":"A Tale That Wasn't Right","length":4.42},
+            {"track_number":6,"title":"Future World","length":4.02},
+            {"track_number":7,"title":"Halloween","length":13.18},
+            {"track_number":8,"title":"Follow the Sign","length":1.46},
+            {"track_number":9,"title":"Victim of Fate","length":7.00},
+            {"track_number":10,"title":"Starlight","length":4.15},
+            {"track_number":11,"title":"A little Tile (alternative version)","length":3.33},
+            {"track_number":12,"title":"Halloween","length":5.02},
+            {"track_number":13,"title":"Savage","length":3.23},
+            {"track_number":14,"title":"Livin' Ain't No Crime","length":4.42}
+        ]
+    },
+    {
+        "artist":"Queen",
+        "album":"A Night at the Opera",
+        "release_date":"1975-11-21",
+        "label":"EMI",
+        "image":"71nxRqKGA8L._AC_SY450_.png",
+        "songs":[
+            {"track_number":1,"title":"Death on Two Legs","length":3.43},
+            {"track_number":2,"title":"Lazing on a Sunday Afternoon","length":1.08},
+            {"track_number":3,"title":"I'm in Love with My Car","length":3.05},
+            {"track_number":4,"title":"You're My Best Friend","length":2.05},
+            {"track_number":5,"title":"'39","length":3.30},
+            {"track_number":6,"title":"Sweet Lady","length":4.01},
+            {"track_number":7,"title":"Seaside Rendezvous","length":2.13},
+            {"track_number":8,"title":"The Prophet's Song","length":8.21},
+            {"track_number":9,"title":"Love of My Life","length":3.38},
+            {"track_number":10,"title":"Good Company","length":3.26},
+            {"track_number":11,"title":"Bohemian Rhapsody","length":5.55},
+            {"track_number":12,"title":"God Save the Queen","length":1.11}
+        ]},
+        {
+            "artist":"Radiohead",
+            "album":"OK Computer",
+            "release_date":"1997-05-04",
+            "label":"Parlophone",
+            "image":"71qtTEW46SL._AC_SX425_.png",
+            "songs":[
+                {"track_number":1,"title":"Airbag","length":4.44},
+                {"track_number":2,"title":"Paranoid Android","length":6.26},
+                {"track_number":3,"title":"Subterranean Homesick Alien","length":4.28},
+                {"track_number":4,"title":"Exit Music (For a Film)","length":4.28},
+                {"track_number":5,"title":"Let Down","length":4.59},
+                {"track_number":6,"title":"Karma Police","length":4.25},
+                {"track_number":7,"title":"Fitter Happier","length":1.58},
+                {"track_number":8,"title":"Electioneering","length":3.50},
+                {"track_number":9,"title":"Climbing Up the Walls","length":4.44},
+                {"track_number":10,"title":"No Surprises","length":3.51},
+                {"track_number":11,"title":"Lucky","length":4.21},
+                {"track_number":12,"title":"The Tourist","length":5.27}
+            ]}
+]
