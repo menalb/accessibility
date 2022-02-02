@@ -1,0 +1,47 @@
+﻿@using MDStore.Components
+@inherits LayoutComponentBase
+
+<SkipToMainContent mainContentId="records#mainContent" />
+
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <a href="/records" alt="Navigate to Music Discovery Hompeage">
+                    <AccessibleImage src="logo.png" altText="Music Discovery store logo" />
+                </a>
+            </div>
+            <div class="col-sm">
+                <div class="topHeader">
+                    <span>
+                        <SearchBox></SearchBox>
+                    </span>
+                    <span>
+                        <a href="/account" class="headerLink">
+                            <span>Account</span>
+                            <span class="oi oi-person" aria-hidden="true"></span>
+                        </a>
+                    </span>
+                </div>
+                <hr />
+                <div>
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">A</li>
+                        <li class="list-group-item">B</li>
+                        <li class="list-group-item">C</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+<div class="page">
+
+    <main>
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

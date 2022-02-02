@@ -1,0 +1,56 @@
+@page "/record/{RecordId}"
+@inject RecordService RecordService
+
+@if (IsLoadingRecord)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (AvailableRecord == null)
+    {
+        <p>Record Not Available, sorry</p>
+    }
+    else
+    {
+        <div class="container">
+            <h1>
+                @AvailableRecord.Album
+            </h1>
+            <div>
+                <ul class="record__info">
+                    <li class="record__infoItem">
+                        Artist: @AvailableRecord.Artist
+                    </li>
+                    <li class="record__infoItem">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" class="record__ranking">
+                            <path
+                        d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+                        </svg> 4.5
+                    </li>
+                </ul>
+            </div>
+            <h2 id="reviews">Reviews</h2>
+            <p>Best album ever</p>
+        </div>
+    }
+}
+
+@code {
+
+    [Parameter]
+    public string? RecordId { get; set; }
+
+    private bool IsLoadingRecord = true;
+
+    public AvailableRecord? AvailableRecord { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!string.IsNullOrEmpty(RecordId))
+        {
+            AvailableRecord = await RecordService.GetRecord(RecordId);
+        }
+        IsLoadingRecord = false;
+    }
+}

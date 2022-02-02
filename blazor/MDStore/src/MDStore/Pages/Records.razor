@@ -1,11 +1,11 @@
 @page "/records"
-@using System.Text.Json.Serialization
 @using MDStore.Components
-@inject HttpClient Http
+@inject RecordService RecordService
+@inherits FragmentNavigationBase
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>MD Records</PageTitle>
 
-<h1>Top Redors Ever!</h1>
+<h1 id="mainContent">Top Redors Ever!</h1>
 
 
 @if (records == null)
@@ -14,13 +14,13 @@
 }
 else
 {
-    <ul class="recordsList">
+    <ul class="recordsList list-group">
         @foreach (var record in records)
         {
-            <li>
-                <a href="@record.Album">
-                    <DecorativeImage src="@BuildAlbumImagePath(record.AlbumImage)" />
-                    <div>
+            <li class="list-group-item">
+                <a href="record/@record.Id">
+                    <DecorativeImage class="albumImage" src="@BuildAlbumImagePath(record.AlbumImage)" />
+                    <div class="albumInfo">
                         <div aria-label="Album name">
                             @record.Album
                         </div>
@@ -38,7 +38,7 @@ else
 }
 
 @code {
-    private AvailableRecords[]? records;
+    private AvailableRecord[]? records;
 
     private string BuildAlbumImagePath(string? imageName)
     {
@@ -46,17 +46,8 @@ else
     }
     protected override async Task OnInitializedAsync()
     {
-        records = await Http.GetFromJsonAsync<AvailableRecords[]>("sample-data/records.json");
+        records = await RecordService.GetRecords();
     }
 
-    public class AvailableRecords
-    {
-        public string? Artist { get; set; }
-        public string? Album { get; set; }
-        [JsonPropertyName("image")]
-        public string? AlbumImage { get; set; }
-        [JsonPropertyName("release_date")]
-        public DateTime ReleaseDate { get; set; }
 
-    }
 }

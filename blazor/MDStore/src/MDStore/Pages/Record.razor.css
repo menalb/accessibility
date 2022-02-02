@@ -1,0 +1,30 @@
+.record__info {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.record__infoItem {
+    padding-left: 0.5em;
+    display: flex;
+}
+
+.record__infoItem:not(:first-child) {
+    border-left: solid 1px #bbb;
+    padding-right: 0.5em;
+}
+
+.record__infoItem:not(:last-child) {
+    padding-right: 0.75em;
+}
+
+.record__ranking {
+    align-self: baseline;
+    fill: currentColor;
+    height: 1em;
+    margin-right: 0.5em;
+    transform: translateY(0.125em);
+    width: 1em;
+    color: #b15f02;
+}

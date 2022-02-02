@@ -1,0 +1,14 @@
+<a href="@GetFragmentNavigation()" id="skipToMainContent">
+    Skip to main content
+</a>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public string mainContentId { get; set; } = "";
+
+    private string GetFragmentNavigation()
+    {
+        return mainContentId;
+    }
+}
