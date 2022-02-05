@@ -1,8 +1,13 @@
 <form role="search" arial-label="Search for a record" class="searchBox">
     <label for="search-record" class="visually-hidden">Search record</label>
-    <input type="search" id="search-record" name="search-record" spellcheck="false" placeholder="Search record">
+    <input type="search" id="search-record" name="search-record" @bind-value="searchText" spellcheck="false"
+        placeholder="Search record">
     <button type="submit" class="btn btn-light">
         <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
         Search
     </button>
 </form>
+
+@code {
+    private string searchText { get; set; } = "";
+}
