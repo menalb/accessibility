@@ -2,11 +2,19 @@
 @foreach (var category in categories)
 {
     <li class="list-group-item">
-            <a href="/records?category=@category" aria-selected="true"> @category </a>
+            <a href="/records?category=@category" class="genreName @CssSelected(category)" aria-selected="@IsSelected(category).ToString().ToLower()"> @category </a>
     </li>
  } 
 </ul>
 @code {
     [Parameter]
     public IEnumerable<string> categories { get; set; } = new List<string>();
+
+    [Parameter]
+    public string selectedCategory{get;set;}="";
+
+private bool IsSelected(string category) => category.Equals(selectedCategory,StringComparison.InvariantCultureIgnoreCase);
+    private string CssSelected(string category) =>
+    IsSelected(category)
+         ? "active" :"";
 }

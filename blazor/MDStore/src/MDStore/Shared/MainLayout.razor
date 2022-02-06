@@ -1,5 +1,7 @@
 ﻿@using MDStore.Components
 @inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@implements IDisposable
 
 <SkipToMainContent mainContentId="records#mainContent" />
 
@@ -20,7 +22,7 @@
                 </div>
                 <hr />
                 <div>
-                    <CategorySelector categories="@categories" />
+                    <CategorySelector categories="@categories" selectedCategory="@selectedCategory" />
                 </div>
             </div>
             <div class="col-sm userLogin">
@@ -45,4 +47,23 @@
 @code {
 
     private string[] categories = new string[] { "Rock", "Metal", "Classic" };
+
+    private string selectedCategory = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        NavigationManager.LocationChanged += NavigationManager_LocationChanged;
+        selectedCategory = NavigationManager.QueryString("category");
+    }
+
+    private void NavigationManager_LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        selectedCategory = NavigationManager.QueryString("category");
+        StateHasChanged();
+    }
+
+    void IDisposable.Dispose()
+    {
+        NavigationManager.LocationChanged -= NavigationManager_LocationChanged;
+    }
 }
