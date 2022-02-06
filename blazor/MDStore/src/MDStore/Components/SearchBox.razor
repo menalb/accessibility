@@ -1,4 +1,5 @@
-<form role="search" arial-label="Search for a record" class="searchBox">
+<EditForm role="search" EditContext="@editContext" OnSubmit="@Search" arial-label="Search for a record"
+    class="searchBox">
     <label for="search-record" class="visually-hidden">Search record</label>
     <input type="search" id="search-record" name="search-record" @bind-value="searchText" spellcheck="false"
         placeholder="Search record">
@@ -6,8 +7,20 @@
         <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
         Search
     </button>
-</form>
+</EditForm>
 
 @code {
     private string searchText { get; set; } = "";
+    private EditContext editContext;
+    [Parameter] public EventCallback<string> OnSearch { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        editContext = new(searchText);
+    }
+
+    private async Task Search()
+    {
+        await OnSearch.InvokeAsync(searchText);
+    }
 }

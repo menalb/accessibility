@@ -16,7 +16,7 @@
             <div class="col-sm">
                 <div class="topHeader">
                     <span>
-                        <SearchBox></SearchBox>
+                        <SearchBox OnSearch="@((t)=> Search(t))" />
                     </span>
 
                 </div>
@@ -60,6 +60,11 @@
     {
         selectedCategory = NavigationManager.QueryString("category");
         StateHasChanged();
+    }
+
+    private void Search(string text)
+    {
+        NavigationManager.NavigateTo($"records?q={text}");
     }
 
     void IDisposable.Dispose()

@@ -53,6 +53,7 @@ else
     private async Task NavigationManager_LocationChanged(object sender, LocationChangedEventArgs e)
     {
         string? category = NavigationManager.QueryString("category");
+
         await RefreshRecords();
     }
 
@@ -69,16 +70,21 @@ else
     private IEnumerable<AvailableRecord> FilterRecords(IEnumerable<AvailableRecord> allRecords)
     {
         category = NavigationManager.QueryString("category");
+        string? q = NavigationManager.QueryString("q");
+
+        var filteredByTitle = allRecords.Where(record =>
+        (string.IsNullOrEmpty(q) ? record.Album == record.Album :
+        record.Album.Contains(q, StringComparison.InvariantCultureIgnoreCase)));
 
         if (!string.IsNullOrEmpty(category))
         {
-            return allRecords.Where(record =>
+            return filteredByTitle.Where(record =>
             (!string.IsNullOrEmpty(record.Category)) &&
             record.Category.Equals(category, StringComparison.InvariantCultureIgnoreCase));
         }
         else
         {
-            return allRecords;
+            return filteredByTitle;
         }
     }
 
