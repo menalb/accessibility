@@ -1,11 +1,13 @@
 @page "/records"
 @using MDStore.Components
 @inject RecordService RecordService
+@inject NavigationManager NavigationManager
 @inherits FragmentNavigationBase
+@implements IDisposable
 
 <PageTitle>MD Records</PageTitle>
 
-<h1 id="mainContent">Top Redors Ever!</h1>
+<h1 id="mainContent">Top @category Redors</h1>
 
 
 @if (records == null)
@@ -19,7 +21,7 @@ else
         {
             <li class="list-group-item">
                 <a href="record/@record.Id">
-                    <DecorativeImage class="albumImage" src="@BuildAlbumImagePath(record.AlbumImage)" />
+                    <DecorativeImage class="albumImage" src="@record.AlbumImagePath" />
                     <div class="albumInfo">
                         <div aria-label="Album name">
                             @record.Album
@@ -38,16 +40,49 @@ else
 }
 
 @code {
-    private AvailableRecord[]? records;
-
-    private string BuildAlbumImagePath(string? imageName)
-    {
-        return "sample-data/images/" + imageName;
-    }
+    private IEnumerable<AvailableRecord>? records;
+    private string category = "";
     protected override async Task OnInitializedAsync()
     {
-        records = await RecordService.GetRecords();
+        NavigationManager.LocationChanged += async (s, e) => await NavigationManager_LocationChanged(s, e);
+
+        await RefreshRecords();
     }
 
+    private async Task NavigationManager_LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        string? category = NavigationManager.QueryString("category");
+        await RefreshRecords();
+    }
 
+    private async Task RefreshRecords()
+    {
+        var allRecords = await RecordService.GetRecords();
+        if (allRecords != null && allRecords.Any())
+        {
+            records = FilterRecords(allRecords);
+            StateHasChanged();
+        }
+    }
+
+    private IEnumerable<AvailableRecord> FilterRecords(IEnumerable<AvailableRecord> allRecords)
+    {
+        category = NavigationManager.QueryString("category");
+
+        if (!string.IsNullOrEmpty(category))
+        {
+            return allRecords.Where(record =>
+            (!string.IsNullOrEmpty(record.Category)) &&
+            record.Category.Equals(category, StringComparison.InvariantCultureIgnoreCase));
+        }
+        else
+        {
+            return allRecords;
+        }
+    }
+
+    void IDisposable.Dispose()
+    {
+        NavigationManager.LocationChanged -= async (s, e) => await NavigationManager_LocationChanged(s, e);
+    }
 }

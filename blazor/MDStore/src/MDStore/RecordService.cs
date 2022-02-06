@@ -29,9 +29,13 @@ public class AvailableRecord
     public string Id { get; set; }
     public string? Artist { get; set; }
     public string? Album { get; set; }
+    public string AlbumImagePath { get => "sample-data/images/" + AlbumImage; }
+
     [JsonPropertyName("image")]
     public string? AlbumImage { get; set; }
     [JsonPropertyName("release_date")]
     public DateTime ReleaseDate { get; set; }
+
+    public string? Category { get; set; }
 
 }

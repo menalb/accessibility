@@ -1,0 +1,12 @@
+<ul class="list-group list-group-horizontal pickGenre">
+@foreach (var category in categories)
+{
+    <li class="list-group-item">
+            <a href="/records?category=@category" aria-selected="true"> @category </a>
+    </li>
+ } 
+</ul>
+@code {
+    [Parameter]
+    public IEnumerable<string> categories { get; set; } = new List<string>();
+}

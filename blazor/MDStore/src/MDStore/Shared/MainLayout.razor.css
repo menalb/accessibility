@@ -72,22 +72,27 @@ main {
     position: absolute;
 }
 
-.pickGenre .list-group-item {
+::deep .pickGenre .list-group-item {
     padding: 0;
     border: none;
     background-color: #39607a;
     border: 1px solid transparent;
 }
 
-.pickGenre .list-group-item:hover {
+::deep .list-group-item.active .btn-light {
+    color: black;
+    border: 1px solid black;
+}
+
+::deep .pickGenre .list-group-item:hover {
     border: 1px solid white;
 }
 
-.pickGenre .list-group-item.active {
+::deep .pickGenre .list-group-item.active {
     border: 1px solid white;
 }
 
-.pickGenre .list-group-item button {
+::deep .pickGenre .list-group-item button {
     background-color: transparent;
     color: white;
     border: none;

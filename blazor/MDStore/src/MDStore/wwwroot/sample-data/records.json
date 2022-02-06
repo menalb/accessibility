@@ -5,6 +5,7 @@
         "release_date": "2019-07-26",
         "label": "Republic",
         "image": "Of_Monsters_and_Men_-_Fever_Dream.png",
+        "category": "rock",
         "songs": [{
                 "track_number": 1,
                 "title": "Alligator",
@@ -69,6 +70,7 @@
         "release_date": "1981-10-31",
         "label": "Columbia",
         "image": "JourneyEscapealbumcover.png",
+        "category": "rock",
         "songs": [{
                 "track_number": 1,
                 "title": "Don't Stop Believin'",
@@ -148,6 +150,7 @@
         "release_date": "1987-05-23",
         "label": "Noise",
         "image": "R-1073712-1510230828-5953.png",
+        "category": "metal",
         "songs": [{
                 "track_number": 1,
                 "title": "Initiation",
@@ -227,6 +230,7 @@
         "release_date": "1975-11-21",
         "label": "EMI",
         "image": "71nxRqKGA8L._AC_SY450_.png",
+        "category": "rock",
         "songs": [{
                 "track_number": 1,
                 "title": "Death on Two Legs",
@@ -296,6 +300,7 @@
         "release_date": "1997-05-04",
         "label": "Parlophone",
         "image": "71qtTEW46SL._AC_SX425_.png",
+        "category": "rock",
         "songs": [{
                 "track_number": 1,
                 "title": "Airbag",
