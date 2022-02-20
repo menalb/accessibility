@@ -1,0 +1,70 @@
+﻿@using playground.Models
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
+
+<EditForm EditContext="EditContext" Model="Model" OnSubmit="OnSubmit" OnValidSubmit="@FormHandleValidSubmit" OnInvalidSubmit="@FormHandleInValidSubmit">
+    <fieldset @ref="formFields">
+        @if (ChildContent is not null)
+        {
+            @ChildContent
+        }
+    </fieldset>
+</EditForm>
+
+@code {
+
+    [Parameter] public object? Model { get; set; }
+    [Parameter] public EditContext? EditContext { get; set; }
+
+    [Parameter] public EventCallback<EditContext> OnValidSubmit { get; set; }
+
+    [Parameter] public EventCallback<EditContext> OnSubmit { get; set; }
+
+    [Parameter] public EventCallback<EditContext> OnInvalidSubmit { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private ElementReference formFields;
+    private bool shouldScroolIntoView = false;
+    private IJSObjectReference? module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Account.js");
+        }
+        else if (shouldScroolIntoView && module != null)
+        {
+            await ScrollToInvalidElement();
+            shouldScroolIntoView = false;
+        }
+    }
+
+    private async void FormHandleValidSubmit()
+    {
+        shouldScroolIntoView = false;
+        await OnValidSubmit.InvokeAsync();
+    }
+
+    private async Task FormHandleInValidSubmit(EditContext ctx)
+    {
+        shouldScroolIntoView = true;
+        await OnInvalidSubmit.InvokeAsync();
+    }
+
+
+    private async Task ScrollToInvalidElement()
+    {
+        if (module is not null)
+            await module.InvokeVoidAsync("ScrollToFirstInvalidElement", formFields);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}

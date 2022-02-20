@@ -1,0 +1,113 @@
+@page "/account"
+@using System.ComponentModel.DataAnnotations
+@using playground.Models
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Account</PageTitle>
+
+<EditForm EditContext="currentEditContext" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInValidSubmit">
+    <DataAnnotationsValidator />
+
+    <ValidationSummary />
+    <fieldset @ref="formFields">
+        Personal Info
+        <div>
+            <div class="form-group">
+                <label for="inputUsername">Username</label>
+                <InputText class="form-control" id="inputUsername" aria-describedby="usernamelHelp"
+                           placeholder="Username" @bind-Value="model.Username" DisplayName="Username" />
+                <ValidationMessage For="() => model.Username" />
+                <small id="usernameHelp" class="form-text text-muted">
+                    We'll never share your username with anyone
+                    else.
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail">Email address</label>
+                <div class="input-group @currentEditContext.FieldCssClass(()=>model.Email)">
+                    <div class="input-group-prepend" aria-hidden="true">
+                        <span class="input-group-text">@@</span>
+                    </div>
+                    <InputText type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
+                               placeholder="Enter email" @bind-Value="model.Email" DisplayName="Email" />
+                </div>
+                <ValidationMessage For="() => model.Email" role="alert" />
+                <small id="emailHelp" class="form-text text-muted">
+                    We'll never share your email with anyone
+                    else.
+                </small>
+
+            </div>
+            <div class="form-group">
+                <label for="inputFirstName">First Name</label>
+
+                <InputText class="form-control" id="inputFirstName" aria-describedby="firstNameHelp"
+                           placeholder="Enter First Name" @bind-Value="model.FirstName" DisplayName="First Name" />
+                <ValidationMessage For="() => model.FirstName" role="alert" />
+                <small id="firstNameHelp" class="form-text text-muted">Your First Name.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="inputLastName">Last Name</label>
+
+                <InputText class="form-control" id="inputLastName" aria-describedby="lastNameHelp"
+                           placeholder="Enter Last Name" @bind-Value="model.LastName" DisplayName="Last Name" />
+                <ValidationMessage For="() => model.LastName" role="alert" />
+                <small id="lastNameHelp" class="form-text text-muted">Your Last Name.</small>
+            </div>
+        </div>
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+
+    AccountModel model = new();
+    private ElementReference formFields;
+    private IJSObjectReference? module;
+    private bool shouldScroolIntoView = false;
+    EditContext currentEditContext;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Account.js");
+        }
+        else if (shouldScroolIntoView && module != null)
+        {
+            await ScrollToInvalidElement();
+            shouldScroolIntoView = false;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        currentEditContext = new EditContext(model);
+    }
+
+    private void HandleValidSubmit()
+    {
+        shouldScroolIntoView = false;
+    }
+
+    private async Task HandleInValidSubmit(EditContext ctx)
+    {
+        shouldScroolIntoView = true;
+    }
+
+    private async Task ScrollToInvalidElement()
+    {
+        if (module is not null)
+            await module.InvokeVoidAsync("ScrollToFirstInvalidElement", formFields);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}
