@@ -1,0 +1,16 @@
+.steps {
+    background-color: #106761;
+    color: white;
+    margin: 1rem 0;
+}
+
+::deep .navigation {
+    padding-top: 1rem;
+    border-top: 1px solid lightgray;
+    margin-top: 1rem;
+}
+
+::deep .navigation button {
+    margin-left: 1rem;
+    
+}

@@ -1,0 +1,89 @@
+@using BlazorWAI.Server.Data
+
+<EditForm EditContext="userInfoEditContext" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInValidSubmit">
+    <DataAnnotationsValidator />
+
+    <ValidationSummary />
+
+    <fieldset>
+        <legend>User Info</legend>
+        <hr>
+
+        <div class="form-group">
+            <label for="inputFirstName">First Name</label>
+
+            <InputText class="form-control" id="inputFirstName" placeholder="Enter First Name"
+                       @bind-Value="Model.FirstName" DisplayName="First Name" />
+            <ValidationMessage For="() => Model.FirstName" role="alert" />
+        </div>
+
+        <div class="form-group">
+            <label for="inputLastName">Last Name</label>
+
+            <InputText class="form-control" id="inputLastName" placeholder="Enter Last Name"
+                       @bind-Value="Model.LastName" DisplayName="Last Name" />
+            <ValidationMessage For="() => Model.LastName" role="alert" />
+        </div>
+        <div class="form-group">
+            <label for="inputEmail">Email address</label>
+            <div class="input-group @userInfoEditContext.FieldCssClass(()=>Model.Email)">
+                <div class="input-group-prepend" aria-hidden="true">
+                    <span class="input-group-text">@@</span>
+                </div>
+                <InputText type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
+                           placeholder="Enter email" @bind-Value="Model.Email" DisplayName="Email" />
+            </div>
+            <ValidationMessage For="() => Model.Email" role="alert" />
+            <small id="emailHelp" class="form-text text-muted">
+                We'll never share your email with anyone else.
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="inputPhone">Phone number</label>
+            <div class="input-group">
+                <InputText type="" class="form-control" id="inputPhone" aria-describedby="phonelHelp"
+                           placeholder="Enter phone number" @bind-Value="Model.Phone" DisplayName="Phone" />
+            </div>
+            <ValidationMessage For="() => Model.Phone" role="alert" />
+            <small id="phoneHelp" class="form-text text-muted">
+                We'll never share your phone number with anyone else.
+            </small>
+        </div>
+    </fieldset>
+    <div class="row navigation">
+        @if (OnPrevious.HasDelegate)
+        {
+            <button type="button" @onclick="HandlePrevious" class="btn btn-wai-primary previous col">Previous</button>
+        }
+        <button type="submit" class="btn btn-wai-primary next col">Next</button>
+    </div>
+</EditForm>
+@code {
+
+    [Parameter] public EventCallback<UserInfoModel> OnNext { get; set; }
+    [Parameter] public EventCallback OnPrevious { get; set; }
+    [Parameter] public EventCallback OnInValidSubmit { get; set; }
+    [Parameter] public UserInfoModel Model { get; set; } = new();
+
+    private EditContext userInfoEditContext;
+
+    protected override void OnInitialized()
+    {
+        userInfoEditContext = new(Model);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await OnNext.InvokeAsync(Model);
+    }
+
+    private async Task HandleInValidSubmit()
+    {
+        await OnInValidSubmit.InvokeAsync(Model);
+    }
+
+    private async Task HandlePrevious()
+    {
+        await OnPrevious.InvokeAsync();
+    }
+}

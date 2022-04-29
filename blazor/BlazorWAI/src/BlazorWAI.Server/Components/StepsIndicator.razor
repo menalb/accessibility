@@ -1,0 +1,29 @@
+<span title="Current Step: @CurrentStepTitle()">
+    Step @CurrentStepIndex of @Steps.Count()
+</span>
+
+@code {
+    [Parameter, EditorRequired]
+    public int CurrentStepIndex { get; set; } = 0;
+
+    [Parameter, EditorRequired]
+    public IEnumerable<Step> Steps { get; set; } = new List<Step>();
+
+    private string CurrentStepTitle()
+    {
+
+        var currentStep = Steps.SingleOrDefault(s => s.Index == CurrentStepIndex);
+        if (currentStep != null)
+        {
+            return !string.IsNullOrEmpty(currentStep.Title) ? currentStep.Title : currentStep.Name;
+        }
+        return string.Empty;
+    }
+
+    public class Step
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public int Index { get; set; }
+    }
+}

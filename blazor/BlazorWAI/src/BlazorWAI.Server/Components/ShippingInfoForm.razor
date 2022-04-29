@@ -1,0 +1,82 @@
+@using BlazorWAI.Server.Data
+
+<EditForm EditContext="shippingInfoEditContext" OnValidSubmit="@HandleValidSubmit"
+    OnInvalidSubmit="@HandleInValidSubmit">
+    <DataAnnotationsValidator />
+
+    <ValidationSummary />
+
+    <fieldset>
+        <legend>Shipping Address</legend>
+        <hr>
+        <div class="form-group">
+            <label for="shippingName">Name</label>
+            <InputText class="form-control" id="shippingName" aria-describedby="shippingNameHelp" placeholder="Name"
+                @bind-Value="Model.Name" DisplayName="Name" />
+            <ValidationMessage For="() => Model.Name" />
+            <small id="shippingNameHelp" class="form-text text-muted">
+                The name of the person tht will receive the shipment
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="shippingStreet">Street</label>
+            <InputText class="form-control" id="shippingStreet" placeholder="Street" @bind-Value="Model.Street"
+                DisplayName="Street" />
+            <ValidationMessage For="() => Model.Street" />
+        </div>
+        <div class="form-group">
+            <label for="shippingCity">City</label>
+            <InputText class="form-control" id="shippingCity" placeholder="City" @bind-Value="Model.City"
+                DisplayName="City" />
+            <ValidationMessage For="() => Model.City" />
+        </div>
+        <div class="form-group">
+            <label for="shippingPostalCode">Postal Code</label>
+            <InputText class="form-control" id="shippingPostalCode" placeholder="Postal Code"
+                @bind-Value="Model.PostalCode" DisplayName="Postal Code" />
+            <ValidationMessage For="() => Model.PostalCode" />
+        </div>
+        <div class="form-group">
+            <label for="shippingCountry">Country</label>
+            <InputText class="form-control" id="shippingCountry" placeholder="Country" @bind-Value="Model.Country"
+                DisplayName="Country" ParsingErrorMessage="The {0} does not exist" />
+            <ValidationMessage For="() => Model.Country" />            
+        </div>
+    </fieldset>
+
+    <div class="row navigation">
+        <button type="button" @onclick="HandlePrevious" class="btn btn-wai-primary col">Previous</button>
+        <button type="submit" class="btn btn-wai-primary col">Next</button>
+    </div>
+</EditForm>
+
+@code {
+
+    [Parameter] public EventCallback<AddressModel> OnNext { get; set; }
+    [Parameter] public EventCallback OnPrevious { get; set; }
+    [Parameter] public EventCallback OnInValidSubmit { get; set; }
+    [Parameter] public AddressModel Model { get; set; } = new();
+
+
+    EditContext shippingInfoEditContext;
+
+    protected override void OnInitialized()
+    {
+        shippingInfoEditContext = new(Model);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await OnNext.InvokeAsync(Model);
+    }
+
+    private async Task HandlePrevious()
+    {
+        await OnPrevious.InvokeAsync();
+    }
+
+    private async Task HandleInValidSubmit()
+    {
+        await OnInValidSubmit.InvokeAsync(Model);
+    }
+}

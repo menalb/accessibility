@@ -1,0 +1,60 @@
+@using BlazorWAI.Server.Data
+
+<h2>
+    Confirm your information
+</h2>
+<hr>
+<h3>User Information</h3>
+<ul class="confirm-list">
+    <li>
+        <span>First Name</span> <strong>@Model.UserInfo.FirstName</strong>
+    </li>
+    <li>
+        <span>Last Name</span> <strong>@Model.UserInfo.LastName</strong>
+    </li>
+    <li>
+        <span>Email</span> <strong>@Model.UserInfo.Email</strong>
+    </li>
+    <li>
+        <span>Phone number</span> <strong>@Model.UserInfo.Phone</strong>
+    </li>
+</ul>
+<h3>Shipping Information</h3>
+<ul class="confirm-list">
+    <li>
+        <span>Shipping Name</span> <strong>@Model.ShippingAddress.Name</strong>
+    </li>
+    <li>
+        <span>Street</span> <strong>@Model.ShippingAddress.Street</strong>
+    </li>
+    <li>
+        <span>City</span> <strong>@Model.ShippingAddress.City</strong>
+    </li>
+    <li>
+        <span>Postal Code</span> <strong>@Model.ShippingAddress.PostalCode</strong>
+    </li>
+    <li>
+        <span>Country</span> <strong>@Model.ShippingAddress.Country</strong>
+    </li>
+</ul>
+
+<div class="row navigation">
+    <button type="button" @onclick="HandlePrevious" class="btn btn-wai-primary col">Previous</button>
+    <button type="button" @onclick="HandleNext" class="btn btn-wai-primary next col">Confirm</button>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public ShipmentModel Model { get; set; } = new();
+    [Parameter] public EventCallback OnNext { get; set; }
+    [Parameter] public EventCallback OnPrevious { get; set; }
+
+    private async Task HandlePrevious()
+    {
+        await OnPrevious.InvokeAsync();
+    }
+
+    private async Task HandleNext()
+    {
+        await OnNext.InvokeAsync();
+    }
+}

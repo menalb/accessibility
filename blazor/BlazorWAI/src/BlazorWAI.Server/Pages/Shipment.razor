@@ -1,0 +1,114 @@
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
+@page "/shipment"
+
+<PageTitle>Shipment</PageTitle>
+
+@using BlazorWAI.Server.Components
+@using BlazorWAI.Server.Data
+
+<h1>Shipment</h1>
+
+<section @ref="formFields">
+
+    <h2 class="steps text-center">
+        <StepsIndicator CurrentStepIndex=@currentStep Steps=@Steps />
+    </h2>
+
+    @switch (currentStep)
+    {
+        case 1:
+            <UserInfoForm Model="@model.UserInfo" OnNext="@MoveNex"
+                  OnInValidSubmit="@HandleInValidUserInfoSubmit" />
+            break;
+        case 2:
+            <ShippingInfoForm Model="@model.ShippingAddress" OnNext="@MoveNex"
+                      OnPrevious="@(()=> currentStep = 1)" OnInValidSubmit="@HandleInValidShippingInfoSubmit" />
+            break;
+        case 3:
+            <ShipmentInfoConfirmation Model="@model" OnNext="@MoveNex" OnPrevious=@(()=> currentStep = 2) />
+            break;
+        case 4:
+            <SuccessShipment />
+            break;
+        default:
+            <div>Nothing to do here</div>
+            break;
+    }
+</section>
+
+@code {
+
+    private StepsIndicator.Step[] Steps = new[]
+                        {
+                new StepsIndicator.Step{Name="UserInfo", Title="User Information", Index=1},
+                new StepsIndicator.Step{Name="ShippingInformation", Title="Shipping Information", Index=2},
+                new StepsIndicator.Step{Name="ConfirmInformation", Title="Confirm Information", Index=3},
+                new StepsIndicator.Step{Name="Success", Title="Success", Index=4}
+            };
+
+    ShipmentModel model = new();
+    private ElementReference formFields;
+    private IJSObjectReference? module;
+    private bool shouldScroolIntoView = false;
+    private int currentStep = 1;
+
+    protected override void OnInitialized()
+    {
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", @"./js/validation.js");
+        }
+        else if (shouldScroolIntoView && module != null)
+        {
+            await ScrollToInvalidElement();
+            shouldScroolIntoView = false;
+        }
+    }
+
+    private void HandleValidUserInfoSubmit(UserInfoModel pi)
+    {
+        shouldScroolIntoView = false;
+        currentStep = 2;
+    }
+
+    private void HandleInValidShippingInfoSubmit()
+    {
+        shouldScroolIntoView = true;
+    }
+
+    private void HandleValidShippingInfoSubmit(AddressModel si)
+    {
+        shouldScroolIntoView = false;
+        currentStep = 3;
+    }
+
+    private void MoveNex()
+    {
+        shouldScroolIntoView = false;
+        currentStep++;
+    }
+
+    private void HandleInValidUserInfoSubmit()
+    {
+        shouldScroolIntoView = true;
+    }
+
+    private async Task ScrollToInvalidElement()
+    {
+        if (module is not null)
+            await module.InvokeVoidAsync("ScrollToFirstInvalidElement", formFields);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}
