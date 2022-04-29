@@ -30,7 +30,7 @@
                 <div class="input-group-prepend" aria-hidden="true">
                     <span class="input-group-text">@@</span>
                 </div>
-                <InputText type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
+                <InputText  class="form-control" id="inputEmail" aria-describedby="emailHelp"
                            placeholder="Enter email" @bind-Value="Model.Email" DisplayName="Email" />
             </div>
             <ValidationMessage For="() => Model.Email" role="alert" />
@@ -41,7 +41,7 @@
         <div class="form-group">
             <label for="inputPhone">Phone number</label>
             <div class="input-group">
-                <InputText type="" class="form-control" id="inputPhone" aria-describedby="phonelHelp"
+                <InputText type="phone" class="form-control" id="inputPhone" aria-describedby="phonelHelp"
                            placeholder="Enter phone number" @bind-Value="Model.Phone" DisplayName="Phone" />
             </div>
             <ValidationMessage For="() => Model.Phone" role="alert" />

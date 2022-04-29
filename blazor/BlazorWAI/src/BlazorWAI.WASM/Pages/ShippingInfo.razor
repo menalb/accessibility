@@ -1,0 +1,180 @@
+﻿@page "/shipping"
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
+@using System.ComponentModel.DataAnnotations
+
+<section @ref="formFields">
+
+    <EditForm EditContext="shippingInfoEditContext" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInValidSubmit">
+        <DataAnnotationsValidator />
+
+        <ValidationSummary />
+
+        <fieldset>
+            <legend>User Info</legend>
+
+            <div class="form-group">
+                <label for="inputFirstName">First Name</label>
+
+                <InputText class="form-control" id="inputFirstName" placeholder="Enter First Name"
+                           @bind-Value="model.FirstName" DisplayName="First Name" />
+                <ValidationMessage For="() => model.FirstName" role="alert" />
+
+            </div>
+
+            <div class="form-group">
+                <label for="inputLastName">Last Name</label>
+
+                <InputText class="form-control" id="inputLastName" placeholder="Enter Last Name"
+                           @bind-Value="model.LastName" DisplayName="Last Name" />
+                <ValidationMessage For="() => model.LastName" role="alert" />
+            </div>
+
+            <div class="form-group">
+
+                <label for="inputEmail">Email address</label>
+                <div class="input-group ">
+                    <div class="input-group-prepend" aria-hidden="true">
+                        <span class="input-group-text">@@</span>
+                    </div>
+                    <InputText type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
+                               placeholder="Enter email" @bind-Value="model.Email" DisplayName="Email" />
+                </div>
+                <ValidationMessage For="() => model.Email" role="alert" />
+                <small id="emailHelp" class="form-text text-muted">
+                    We'll never share your email with anyone else.
+                </small>
+
+            </div>
+            <div class="form-group">
+                <label for="inputPhone">Phone number</label>
+                <div class="input-group">
+                    <InputText type="phone" class="form-control" id="inputPhone" aria-describedby="phonelHelp"
+                               placeholder="Enter phone number" @bind-Value="model.Phone" DisplayName="Phone" />
+                </div>
+                <ValidationMessage For="() => model.Phone" role="alert" />
+                <small id="phoneHelp" class="form-text text-muted">
+                    We'll never share your phone number with anyone else.
+                </small>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Shipping Info</legend>
+            <div class="form-group">
+                <label for="shippingName">Name</label>
+                <InputText class="form-control" id="shippingName" aria-describedby="shippingNameHelp" placeholder="Name"
+                           @bind-Value="model.Name" DisplayName="Name" />
+                <ValidationMessage For="() => model.Name" />
+                <small id="shippingNameHelp" class="form-text text-muted">
+                    The name of the person tht will receive the shipment
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="shippingStreet">Street</label>
+                <InputText class="form-control" id="shippingStreet" placeholder="Street" @bind-Value="model.Street"
+                           DisplayName="Street" />
+                <ValidationMessage For="() => model.Street" />
+            </div>
+            <div class="form-group">
+                <label for="shippingCity">City</label>
+                <InputText class="form-control" id="shippingCity" placeholder="City" @bind-Value="model.City"
+                           DisplayName="City" />
+                <ValidationMessage For="() => model.City" />
+            </div>
+            <div class="form-group">
+                <label for="shippingPostalCode">Postal Code</label>
+                <InputText class="form-control" id="shippingPostalCode" placeholder="Postal Code"
+                           @bind-Value="model.PostalCode" DisplayName="Postal Code" />
+                <ValidationMessage For="() => model.PostalCode" />
+            </div>
+            <div class="form-group">
+                <label for="shippingCountry">Country</label>
+                <InputText class="form-control" id="shippingCountry" placeholder="Country" @bind-Value="model.Country"
+                           DisplayName="Country" ParsingErrorMessage="The {0} does not exist" />
+                <ValidationMessage For="() => model.Country" />
+            </div>
+        </fieldset>
+
+        <div class="row">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </EditForm>
+
+</section>
+
+@code {
+    ShippingInfoModel model = new();
+    private EditContext shippingInfoEditContext;
+
+    private bool shouldScroolIntoView = false;
+    private ElementReference formFields;
+    private IJSObjectReference? module;
+
+    protected override void OnInitialized()
+    {
+        shippingInfoEditContext = new(model);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", @"./js/validation.js");
+        }
+        else if (shouldScroolIntoView && module != null)
+        {
+            await ScrollToInvalidElement();
+            shouldScroolIntoView = false;
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        shouldScroolIntoView = false;
+    }
+
+    private void HandleInValidSubmit()
+    {
+        shouldScroolIntoView = true;
+    }
+
+    private async Task ScrollToInvalidElement()
+    {
+        if (module is not null)
+            await module.InvokeVoidAsync("ScrollToFirstInvalidElement", formFields);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+
+    public class ShippingInfoModel
+    {
+        // User Info
+        [Required]
+        public string? FirstName { get; set; }
+        [Required]
+        public string? LastName { get; set; }
+        [Required, EmailAddress]
+        public string? Email { get; set; }
+        [Required, Phone]
+        public string? Phone { get; set; }
+
+        // Shipment Info
+        [Required]
+        public string? Name { get; set; }
+        [Required]
+        public string? Street { get; set; }
+        [Required]
+        public string? City { get; set; }
+        [Required]
+        public string? PostalCode { get; set; }
+        [Required]
+        public string? Country { get; set; }
+    }
+
+}
